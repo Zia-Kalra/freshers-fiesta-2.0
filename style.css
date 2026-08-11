@@ -916,3 +916,37 @@ body::after {
   .core-ring { width: 180px; height: 180px; }
   .hud-card { width: 140px; right: 10px; top: 14px; }
 }
+
+/* Live Signal Countdown */
+.signal-countdown {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.signal-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+  font-family: "DM Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.signal-prompt {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.countdown-value {
+  color: #e8ff65;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.signal-status {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}

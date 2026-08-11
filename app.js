@@ -46,10 +46,20 @@ const landing = () => `
           <p>The first chapter is loading.</p>
           <p>Expect the kind of event that turns strangers into your closest people.</p>
         </div>
+        <div class="signal-countdown">
+          <div class="signal-line">
+              <span class="signal-prompt">&gt;</span>
+              <span>T-MINUS</span>
+              <span class="countdown-value" id="countdown">-- : -- : -- : --</span>
+          </div>
+            
+          <div class="signal-line">
+              <span class="signal-prompt">&gt;</span>
+              <span>STATUS:</span>
+              <span class="signal-status">REGISTRATION_OPEN</span>
+          </div>
+        </div>
         <div class="panel-grid">
-          <div><strong>13.08.26</strong><span>Date</span></div>
-          <div><strong>2:30 PM</strong><span>Time</span></div>
-          <div><strong>To be Announced Soon</strong><span>Venue</span></div>
         </div>
       </div>
     </section>
@@ -453,3 +463,38 @@ const revealObserver = 'IntersectionObserver' in window
   : { observe: el => el.classList.add('is-visible'), unobserve: () => {} };
 
 render();
+
+function updateCountdown() {
+    const countdown = document.getElementById('countdown');
+    if (!countdown) return;
+
+    const eventDate = new Date('2026-08-13T14:30:00+05:30');
+    const now = new Date();
+
+    const difference = eventDate - now;
+
+    if (difference <= 0) {
+        countdown.textContent = '00 : 00 : 00 : 00';
+        return;
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+    );
+    const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+    );
+    const seconds = Math.floor(
+        (difference / 1000) % 60
+    );
+
+    countdown.textContent =
+        `${String(days).padStart(2, '0')} : ` +
+        `${String(hours).padStart(2, '0')} : ` +
+        `${String(minutes).padStart(2, '0')} : ` +
+        `${String(seconds).padStart(2, '0')}`;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);

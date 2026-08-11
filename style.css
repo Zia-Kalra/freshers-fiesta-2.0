@@ -853,8 +853,8 @@ body::after {
 .orb-cyan { background: var(--cyan); bottom: -11rem; left: -7rem; }
 
 .site-logo {
-  width: 44px;
-  height: 44px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
   margin-right: 8px;
 }

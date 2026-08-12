@@ -328,15 +328,8 @@ function initializeYearDropdown() {
 }
 
 function showError(id, msg) {
-  const input = document.getElementById(id);
-  const field = input?.closest('.field');
-  const error = document.querySelector(`[data-error="${id}"]`);
-  if (field) field.classList.toggle('has-error', Boolean(msg));
-  if (error) error.textContent = msg;
-  if (id === 'confirm') {
-    const row = document.querySelector('.check-row');
-    if (row) row.classList.toggle('has-error', Boolean(msg));
-  }
+    // Error messages disabled temporarily.
+    return;
 }
 
 document.addEventListener('click', e => {
@@ -356,78 +349,83 @@ document.addEventListener('keydown', e => {
 });
 
 document.addEventListener('submit', async e => {
-  if (!e.target.matches('#registration-form')) return;
-  e.stopImmediatePropagation();
-  e.preventDefault();
+    if (!e.target.matches('#registration-form')) return;
 
-  const form = e.target;
-  const data = Object.fromEntries(new FormData(form));
-  let valid = true;
+    e.preventDefault();
+    e.stopImmediatePropagation();
 
-  const required = ['name', 'email', 'phone', 'enrollment', 'year', 'course', 'specialization'];
-  required.forEach(id => {
-    if (!data[id]) {
-      showError(id, 'This field is required');
-      valid = false;
-    } else {
-      showError(id, '');
-    }
-  });
+    const form = e.target;
+    const data = Object.fromEntries(new FormData(form));
 
-  if (data.name && data.name.trim().length < 2) {
-    showError('name', 'Please enter at least 2 characters');
-    valid = false;
-  }
-  if (data.email && !/^\S+@\S+\.\S+$/.test(data.email)) {
-    showError('email', 'Please enter a valid email address');
-    valid = false;
-  }
+    data.confirmed = document.getElementById('confirm')?.checked || false;
 
-  const digits = (data.phone || '').replace(/\D/g, '');
-  if (digits && !/^(?:91)?[6-9]\d{9}$/.test(digits)) {
-    showError('phone', 'Enter a valid Indian WhatsApp number');
-    valid = false;
-  }
-  if (digits) data.phone = `+91 ${digits.slice(-10)}`;
+    // Basic required-field check
+    const required = [
+        'name',
+        'email',
+        'phone',
+        'enrollment',
+        'year',
+        'course',
+        'specialization'
+    ];
 
-  if (!document.querySelector('#confirm').checked) {
-    showError('confirm', 'Please confirm your information');
-    valid = false;
-  } else {
-    showError('confirm', '');
-  }
-
-  if (!valid) return;
-
-  const button = form.querySelector('button[type="submit"]');
-  button.disabled = true;
-  button.classList.add('is-loading');
-  button.innerHTML = 'Registering <span class="spinner"></span>';
-
-  try {
-    const response = await fetch('/api/registrations', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, confirmed: true })
-    });
-    const result = await response.json();
-
-    if (!response.ok) {
-      showError('enrollment', result.error || 'Unable to save registration');
-      button.disabled = false;
-      button.classList.remove('is-loading');
-      button.innerHTML = 'Register for fiesta';
-      return;
+    for (const id of required) {
+        if (!data[id] || !String(data[id]).trim()) {
+            alert('Please fill all the required fields.');
+            return;
+        }
     }
 
-    registration = { ...result.registration, id: result.registration.registrationId };
-    render('success');
-  } catch (error) {
-    showError('enrollment', 'Server unavailable. Please try again.');
-    button.disabled = false;
-    button.classList.remove('is-loading');
-    button.innerHTML = 'Register for fiesta';
-  }
+    if (!data.confirmed) {
+        alert('Please confirm your information.');
+        return;
+    }
+
+    const button = form.querySelector('button[type="submit"]');
+
+    button.disabled = true;
+    button.classList.add('is-loading');
+    button.innerHTML = 'Registering <span class="spinner"></span>';
+
+    try {
+        const response = await fetch('/api/registrations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        console.log('Registration response:', result);
+
+        if (!response.ok) {
+            alert(result.error || 'Unable to save registration.');
+
+            button.disabled = false;
+            button.classList.remove('is-loading');
+            button.innerHTML = 'Register for fiesta';
+            return;
+        }
+
+        registration = {
+            ...result.registration,
+            id: result.registration.registrationId
+        };
+
+        render('success');
+
+    } catch (error) {
+        console.error('Registration error:', error);
+
+        alert('Server unavailable. Please try again.');
+
+        button.disabled = false;
+        button.classList.remove('is-loading');
+        button.innerHTML = 'Register for fiesta';
+    }
 }, true);
 
 function enhanceView() {

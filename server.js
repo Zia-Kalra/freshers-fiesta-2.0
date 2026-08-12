@@ -116,11 +116,11 @@ function validateRegistration(input) {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.email.trim())) {
     return 'Please provide a valid email address.';
   }
-
-  if (!/^9[6-9]\d{9}$/.test(input.phone.trim())) {
+  
+  if (!input.phone || input.phone.trim().length < 10) {
     return 'Please provide a valid Indian WhatsApp number.';
   }
-
+  
   if (!input.confirmed) {
     return 'Please confirm that your information is correct.';
   }

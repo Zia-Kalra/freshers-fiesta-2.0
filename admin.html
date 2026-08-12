@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>FF 2.0 — Admin Portal</title>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <section id="login-screen" class="login-screen">
+
+    <div class="login-card">
+
+      <div class="admin-mark">
+        FF
+      </div>
+
+      <div class="eyebrow">
+        FRESHER'S FIESTA 2.0
+      </div>
+
+      <h1>
+        ADMIN<br />
+        <span>PORTAL</span>
+      </h1>
+
+      <p class="login-description">
+        Authorized access only.
+        Manage and view event registrations.
+      </p>
+
+      <form id="login-form">
+
+        <label for="username">
+          USERNAME
+        </label>
+
+        <input
+          id="username"
+          type="text"
+          placeholder="Enter admin username"
+          autocomplete="username"
+          required
+        />
+
+        <label for="password">
+          PASSWORD
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Enter admin password"
+          autocomplete="current-password"
+          required
+        />
+
+        <button type="submit">
+          ACCESS PORTAL →
+        </button>
+
+        <p id="login-error" class="error"></p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN DASHBOARD -->
+  <section id="dashboard" class="dashboard hidden">
+
+    <header class="admin-header">
+
+      <div>
+        <div class="eyebrow">
+          FRESHER'S FIESTA 2.0
+        </div>
+
+        <h1>
+          REGISTRATION
+          <span>CONTROL</span>
+        </h1>
+      </div>
+
+      <button
+        id="logout-button"
+        class="logout-button"
+      >
+        LOGOUT
+      </button>
+
+    </header>
+
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <span class="stat-label">
+          TOTAL REGISTRATIONS
+        </span>
+
+        <strong id="total-count">
+          0
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">
+          EVENT
+        </span>
+
+        <strong>
+          FF 2.0
+        </strong>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">
+          STATUS
+        </span>
+
+        <strong class="status">
+          REGISTRATION OPEN
+        </strong>
+      </div>
+
+    </div>
+
+
+    <!-- REGISTRATION TABLE -->
+
+    <div class="table-container">
+
+      <div class="table-header">
+
+        <div>
+          <span class="eyebrow">
+            LIVE DATABASE
+          </span>
+
+          <h2>
+            ALL REGISTRATIONS
+          </h2>
+        </div>
+
+        <button
+          id="refresh-button"
+          class="refresh-button"
+        >
+          ↻ REFRESH
+        </button>
+
+      </div>
+
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>NAME</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>ENROLLMENT</th>
+              <th>YEAR</th>
+              <th>COURSE</th>
+              <th>SPECIALIZATION</th>
+              <th>REGISTERED</th>
+            </tr>
+          </thead>
+
+          <tbody id="registrations-body">
+
+            <tr>
+              <td
+                colspan="9"
+                class="loading"
+              >
+                LOADING REGISTRATIONS...
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <script src="/admin.js"></script>
+
+</body>
+</html>
